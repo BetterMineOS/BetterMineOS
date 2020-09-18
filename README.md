@@ -4,8 +4,8 @@
 /Backups is for backups.. I shouldn't have to explain this
 
 # Add these to your .bashrc
-export PATH="$HOME/betterMineOS/Commands:$PATH"  
-export betterMineOS="$HOME/betterMineOS/"  
+export PATH="$HOME/BetterMineOS/Commands:$PATH"  
+export betterMineOS="$HOME/BetterMineOS/"  
 
 # To set up a server
 1. Create a folder in /Servers (The name will be used in the start command)
