@@ -8,7 +8,7 @@ then
     exit
 fi
 
-if [ -d $betterMineOS"/Servers/"$1 ]
+if [ -d $BetterMineOS"/Servers/"$1 ]
 then
     echo -e "\nStoping server: \e[93m $1 \e[0m\n"
     screen -r $1 -p 0 -X stuff "stop^M"

@@ -8,9 +8,9 @@ then
     exit
 fi
 
-if [ -d $betterMineOS"/Servers/"$1 ]
+if [ -d $BetterMineOS"/Servers/"$1 ]
 then
-    cd $betterMineOS"/Servers/"$1
+    cd $BetterMineOS"/Servers/"$1
     echo $(pwd)
     echo -e "\nStarting server: \e[93m $1 \e[0m\n"
     screen -dmS $1 ./AutoUpdateAndStartPaper.sh

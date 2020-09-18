@@ -7,12 +7,12 @@
 
 ## Add these to your .bashrc
 export PATH="$HOME/BetterMineOS/Commands:$PATH"  
-export betterMineOS="$HOME/BetterMineOS/"  
+export BetterMineOS="$HOME/BetterMineOS/"  
 
 ## To set up a server
 1. Create a folder in /Servers (The name will be used in the start command)
 2. Place Autoupdate...sh (its a long ass name) in the folder
 3. Edit Autoupdate...sh's $version variable to have the version you want
 
-# Notes
+## Notes
 .gitignore ignores all the folders related to servers

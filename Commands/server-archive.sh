@@ -4,10 +4,10 @@
 
 date=$(date +"%d_%m_%y_%Hh%Mm")
 
-tar -zpcf "$1_$date.tar.gz" $betterMineOS"/Servers/"$1
+tar -zpcf "$1_$date.tar.gz" $BetterMineOS"/Servers/"$1
 
-if [ ! -d $betterMineOS"/Archives/"$1  ]; then
-    mkdir $betterMineOS"/Archives/"$1
+if [ ! -d $BetterMineOS"/Archives/"$1  ]; then
+    mkdir $BetterMineOS"/Archives/"$1
 fi
 
-mv "$1_$date.tar.gz" $betterMineOS"/Archives/"$1/
+mv "$1_$date.tar.gz" $BetterMineOS"/Archives/"$1/
