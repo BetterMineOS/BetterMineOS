@@ -53,6 +53,11 @@ then
     echo exclude argument $exclude
 fi
 
+# make sure there is a place to put the backup
+if [ ! -d $BetterMineOS"/Backups/"$1  ]; then
+    mkdir $BetterMineOS"/Backups/"$1
+fi
+
 if [ "$timeSinceLastFullBackup" != "" ]
 then
     echo timeSinceLastFullBackup argument $timeSinceLastFullBackup
@@ -63,19 +68,19 @@ then
     # run duplicity with the argument of time since last full backup    
     # and exclude file arguments
     
-    duplicity $BetterMineOS/servers/$ARG1 $ARG2 --full-if-older-than $timeSinceLastFullBackup --exclude $exclude --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --exclude $exclude --no-encryption --allow-source-mismatch
 
 elif [ "$timeSinceLastFullBackup" != "" ]
 then
     # time since last full backup
-    duplicity $BetterMineOS/servers/$ARG1 $ARG2 --full-if-older-than $timeSinceLastFullBackup --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --no-encryption --allow-source-mismatch
 
 elif [ "$exclude" != "" ]
 then
     # exclude
-    duplicity $BetterMineOS/servers/$ARG1 $ARG2 --exclude $exclude --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --exclude $exclude --no-encryption --allow-source-mismatch
 else
-    duplicity $BetterMineOS/servers/$ARG1 $ARG2 --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --no-encryption --allow-source-mismatch
 fi
 
 screen -S $ARG1 -p 0 -X stuff "save-on^M" 
