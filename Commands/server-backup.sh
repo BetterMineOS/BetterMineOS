@@ -39,11 +39,11 @@ screen -S $ARG1 -p 0 -X stuff "save-off^M"
 screen -S $ARG1 -p 0 -X stuff "save-all^M" 
 sleep 2
 
-check=$(tail -c 15 $BetterMineOS/servers/$ARG1/logs/latest.log | grep -o "Saved the game")
+check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
 
 while [ "$check" != "$saved" ]
 do	
-	check=$(tail -c 15 $BetterMineOS/servers/$ARG1/logs/latest.log | grep -o "Saved the game")
+	check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
 	sleep 0.25
 done
 
@@ -68,19 +68,19 @@ then
     # run duplicity with the argument of time since last full backup    
     # and exclude file arguments
     
-    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --exclude $exclude --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --exclude $exclude --no-encryption --allow-source-mismatch
 
 elif [ "$timeSinceLastFullBackup" != "" ]
 then
     # time since last full backup
-    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --no-encryption --allow-source-mismatch
 
 elif [ "$exclude" != "" ]
 then
     # exclude
-    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --exclude $exclude --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --exclude $exclude --no-encryption --allow-source-mismatch
 else
-    duplicity $BetterMineOS/servers/$ARG1 $BetterMineOS/backup/$ARG2 --no-encryption --allow-source-mismatch
+    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --no-encryption --allow-source-mismatch
 fi
 
 screen -S $ARG1 -p 0 -X stuff "save-on^M" 
