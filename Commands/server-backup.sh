@@ -20,67 +20,59 @@ saved="Saved the game"
 exclude=""
 timeSinceLastFullBackup=""
 
-
 while getopts ":e:t:" opt; do
     case ${opt} in
-        e )
-            exclude=$OPTARG
-            ;;
-        t )
-            timeSinceLastFullBackup=$OPTARG
-            ;;
+    e)
+        exclude=$OPTARG
+        ;;
+    t)
+        timeSinceLastFullBackup=$OPTARG
+        ;;
     esac
 done
 
 ARG1=${@:$OPTIND:1}
 ARG2=${@:$OPTIND+1:1}
 
-screen -S $ARG1 -p 0 -X stuff "save-off^M" 
-screen -S $ARG1 -p 0 -X stuff "save-all^M" 
+screen -S $ARG1 -p 0 -X stuff "save-off^M"
+screen -S $ARG1 -p 0 -X stuff "save-all^M"
 sleep 2
 
 check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
 
-while [ "$check" != "$saved" ]
-do	
-	check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
-	sleep 0.25
+while [ "$check" != "$saved" ]; do
+    check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
+    sleep 0.25
 done
 
-
-if [ "$exclude" != "" ]
-then
+if [ "$exclude" != "" ]; then
     echo exclude argument $exclude
 fi
 
 # make sure there is a place to put the backup
-if [ ! -d $BetterMineOS"/Backups/"$1  ]; then
+if [ ! -d $BetterMineOS"/Backups/"$1 ]; then
     mkdir $BetterMineOS"/Backups/"$1
 fi
 
-if [ "$timeSinceLastFullBackup" != "" ]
-then
+if [ "$timeSinceLastFullBackup" != "" ]; then
     echo timeSinceLastFullBackup argument $timeSinceLastFullBackup
 fi
 
-if [ "$timeSinceLastFullBackup" != "" ] && [ "$exclude" != "" ]
-then
-    # run duplicity with the argument of time since last full backup    
+if [ "$timeSinceLastFullBackup" != "" ] && [ "$exclude" != "" ]; then
+    # run duplicity with the argument of time since last full backup
     # and exclude file arguments
-    
+
     duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --exclude $exclude --no-encryption --allow-source-mismatch
 
-elif [ "$timeSinceLastFullBackup" != "" ]
-then
+elif [ "$timeSinceLastFullBackup" != "" ]; then
     # time since last full backup
     duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --no-encryption --allow-source-mismatch
 
-elif [ "$exclude" != "" ]
-then
+elif [ "$exclude" != "" ]; then
     # exclude
     duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --exclude $exclude --no-encryption --allow-source-mismatch
 else
     duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --no-encryption --allow-source-mismatch
 fi
 
-screen -S $ARG1 -p 0 -X stuff "save-on^M" 
+screen -S $ARG1 -p 0 -X stuff "save-on^M"
