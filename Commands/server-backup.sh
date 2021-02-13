@@ -35,4 +35,4 @@ done
 
 duplicity $BetterMineOS"/Servers/"$1 file://$BetterMineOS/Backups/$1 --no-encryption
 
-screen -S $ARG1 -p 0 -X stuff "save-on^M" 
+screen -S $ARG1 -p 0 -X stuff "save-on^M"
