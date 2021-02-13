@@ -1,78 +1,38 @@
 #!/bin/bash
 
 # Mission is to be able to backup the server with a single script
-# Python will pass the appropriate parameters to the script to make it work
 # --no-encryption is always implied
-# The user will be able to specify a file to exclude
-
-# $1 aka first argument is the file to be backed up
-# $2 aka second argument is the location it is backed up to
+# The server is assumed to be running (fails otherwise)
+# 
+# $1 The server to backup
 #
 # Usage:
-# Backup.sh [-t timeSinceLastFullBackup] [-e exclude] <server-to-backup> <backup-location>
+# server-backup.sh <server-to-backup>
 
 # TODO: Provide proper error checking if screen doesn't exist
 
 set -e
-
-saved="Saved the game"
-
-exclude=""
-timeSinceLastFullBackup=""
-
-while getopts ":e:t:" opt; do
-    case ${opt} in
-    e)
-        exclude=$OPTARG
-        ;;
-    t)
-        timeSinceLastFullBackup=$OPTARG
-        ;;
-    esac
-done
-
 ARG1=${@:$OPTIND:1}
-ARG2=${@:$OPTIND+1:1}
-
-screen -S $ARG1 -p 0 -X stuff "save-off^M"
-screen -S $ARG1 -p 0 -X stuff "save-all^M"
-sleep 2
-
-check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
-
-while [ "$check" != "$saved" ]; do
-    check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
-    sleep 0.25
-done
-
-if [ "$exclude" != "" ]; then
-    echo exclude argument $exclude
-fi
 
 # make sure there is a place to put the backup
-if [ ! -d $BetterMineOS"/Backups/"$1 ]; then
+if [ ! -d $BetterMineOS"/Backups/"$1  ]; then
     mkdir $BetterMineOS"/Backups/"$1
 fi
 
-if [ "$timeSinceLastFullBackup" != "" ]; then
-    echo timeSinceLastFullBackup argument $timeSinceLastFullBackup
-fi
+# Setting up the server to be backed up
+screen -S $ARG1 -p 0 -X stuff "save-off^M" 
+screen -S $ARG1 -p 0 -X stuff "save-all^M" 
+sleep 2
 
-if [ "$timeSinceLastFullBackup" != "" ] && [ "$exclude" != "" ]; then
-    # run duplicity with the argument of time since last full backup
-    # and exclude file arguments
+saved="Saved the game"
+check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
+while [ "$check" != "$saved" ]
+do	
+	check=$(tail -c 15 $BetterMineOS/Servers/$ARG1/logs/latest.log | grep -o "Saved the game")
+    echo "Stalled"
+	sleep 0.25
+done
 
-    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --exclude $exclude --no-encryption --allow-source-mismatch
-
-elif [ "$timeSinceLastFullBackup" != "" ]; then
-    # time since last full backup
-    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --full-if-older-than $timeSinceLastFullBackup --no-encryption --allow-source-mismatch
-
-elif [ "$exclude" != "" ]; then
-    # exclude
-    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --exclude $exclude --no-encryption --allow-source-mismatch
-else
-    duplicity $BetterMineOS/Servers/$ARG1 $BetterMineOS/backup/$ARG2 --no-encryption --allow-source-mismatch
-fi
+duplicity $BetterMineOS"/Servers/"$1 file://$BetterMineOS/Backups/$1 --no-encryption
 
 screen -S $ARG1 -p 0 -X stuff "save-on^M"
