@@ -11,7 +11,7 @@ export BetterMineOS="$HOME/.../BetterMineOS/"
 
 ## To set up a server
 1. Create a folder in /Servers (The name will be used in the start command)
-2. Place Autoupdate...sh (its a long ass name) in the folder
+2. Place Autoupdate...sh (its a long name) in the folder
 3. Edit Autoupdate...sh's $version variable to have the version you want
 
 ## Notes
