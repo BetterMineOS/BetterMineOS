@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 BG_BLACK="$(tput setab 0)"
 BG_RED="$(tput setab 1)"
 BG_GREEN="$(tput setab 2)"
@@ -21,8 +20,6 @@ FG_MAGENTA="$(tput setaf 5)"
 FG_CYAN="$(tput setaf 6)"
 FG_WHITE="$(tput setaf 7)"
 FG_RESET="$(tput setaf 9)"
-
-server_text=servers.txt
 
 tput smcup
 
@@ -57,17 +54,16 @@ _EOF_
 
         2)  printf "\n"
             i=1
-            while IFS= read -r line
+            for dir in $BetterMineOS/Servers/*
             do
-                printf "\t$i) $line\n"
+                printf "\t$i) $dir\n"
                 i=$((i+1))
-            done < "$server_text"
+            done
 
             printf "\n"
             read -p "Enter the number of the server > " server_number
-            server=$(sed -n ${server_number}p $server_text)
 
-            if [[ $(cat servers.txt | wc -l) -gt $server_number ]]
+            if [[ $(ls $BetterMineOS/Servers | wc -l) -gt $server_number ]]
             then
                 printf "\nStarting server ${FG_GREEN}$server${FG_WHITE}"
                 screen -dmS $1 ./AutoUpdateAndStartPaper.sh  # Start the server in detached screen
