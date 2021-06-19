@@ -65,10 +65,10 @@ _EOF_
             read -p "Enter the number of the server > " server_number
             server=$(ls $BetterMineOS/Servers | sed -n ${server_number}p)
 
-            if [[ $(ls $BetterMineOS/Servers | wc -l) -gt $server_number ]]
+            if [[ $(ls $BetterMineOS/Servers | wc -l) -ge $server_number ]]
             then
                 printf "\nStarting server ${FG_GREEN}$server${FG_WHITE}"
-                #$BetterMineOS/Commands/server-start.sh
+                $BetterMineOS/Commands/server-start.sh $server
             else
                 printf "\nInvalid server number"
             fi
