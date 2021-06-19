@@ -1,17 +1,18 @@
 # BetterMineOS
 
 ## Structure
-/Commands is the folder that you add to your $PATH so that you can call the commands from anywhere  
 /Servers is the folder where you make your server folders  
 /Backups is for backups.. I shouldn't have to explain this
 
 ## Add these to your .bashrc
 export BetterMineOS="$HOME/.../BetterMineOS/"  
 
-## To set up a server
-1. Create a folder in /Servers (The name will be used in the start command)
-2. Place Autoupdate...sh (its a long name) in the folder
-3. Edit Autoupdate...sh's $version variable to have the version you want
+## Usage
+Run Commands/menu.sh to create a server. You can also use it to start, connect to, and stop servers.
+
+Commands/server-backup.sh is cron friendly.
+
+Commands/server-archive.sh takes a full .tar.gz of the server given.
 
 ## Notes
 .gitignore ignores all the folders related to servers
