@@ -52,6 +52,7 @@ _EOF_
             read -p "Name for the server > " server_name
             mkdir $BetterMineOS/Servers/$server_name
             cp $BetterMineOS/Commands/AutoUpdateAndStartPaper.sh $BetterMineOS/Servers/$server_name/
+            echo "eula=true" > $BetterMineOS/Servers/$server_name/eula.txt
             ;; 
 
         # Read from a text file that contains
