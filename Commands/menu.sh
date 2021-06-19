@@ -46,13 +46,17 @@ _EOF_
 
     # Act on selection
     case $selection in
-        1)  read -p "Name for the server > " server_name
+            
+        1)  # Create server
+            read -p "Name for the server > " server_name
             ;; 
 
         # Read from a text file that contains
         # the names of the servers
 
-        2)  printf "\n"
+            
+        2)  # Start server
+            printf "\n"
             i=1
             for dir in $BetterMineOS/Servers/*
             do
@@ -76,26 +80,27 @@ _EOF_
 
             ;;
 
-        4)  printf "\n"
+
+        4)  # Connect to server
+            printf "\n"
 
             number_of_servers=$(screen -ls | grep "(" | wc -l)
-            #screenlist=$(screen -ls | grep "(" | sed -n ${i}p)
 
             for (( i=1; i <=$number_of_servers; i++ ))
                 do
-                    printf "($i)"
-            #        printf "$screenlist"
-                    j=$((i+1))
+                    screenlist=$(screen -ls | grep "(" | cut -d'.' -f 2 | cut -d$'\t' -f 1 | sed -n ${i}p)
+                    printf "\t$i) $screenlist\n"
                 done
             printf "\n"
 
             read -p "Enter the server number > " server
 
-            selection=$($screenlist | sed -n ${server}p | grep -o "[0-9]*\.")
+            selection=$(screen -ls | grep "(" | sed -n ${server}p | grep -o "[0-9]*\.")
             screen -r $selection
             ;;
 
-        5)  printf "\n"
+        5)  # List running servers
+            printf "\n"
             screen -ls | grep "("
             ;;
 
