@@ -65,8 +65,9 @@ _EOF_
 
             if [[ $(ls $BetterMineOS/Servers | wc -l) -gt $server_number ]]
             then
-                printf "\nStarting server ${FG_GREEN}$server${FG_WHITE}"
-                screen -dmS $1 ./AutoUpdateAndStartPaper.sh  # Start the server in detached screen
+                echo "NEEDS TO BE IMPLEMENTED, figure out how to choose server based on number"
+                #printf "\nStarting server ${FG_GREEN}$server${FG_WHITE}"
+                #$BetterMineOS/Commands/server-start.sh
             else
                 printf "\nInvalid server number"
             fi
