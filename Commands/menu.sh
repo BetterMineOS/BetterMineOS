@@ -48,7 +48,10 @@ _EOF_
     case $main_selection in
             
         1)  # Create server
+            printf "\n"
             read -p "Name for the server > " server_name
+            mkdir $BetterMineOS/Servers/$server_name
+            cp $BetterMineOS/Commands/AutoUpdateAndStartPaper.sh $BetterMineOS/Servers/$server_name/
             ;; 
 
         # Read from a text file that contains
