@@ -56,17 +56,18 @@ _EOF_
             i=1
             for dir in $BetterMineOS/Servers/*
             do
-                printf "\t$i) $dir\n"
+                printDir=$(echo $dir | rev | cut -d'/' -f 1 | rev)
+                printf "\t$i) $printDir\n"
                 i=$((i+1))
             done
 
             printf "\n"
             read -p "Enter the number of the server > " server_number
+            server=$(ls $BetterMineOS/Servers | sed -n ${server_number}p)
 
             if [[ $(ls $BetterMineOS/Servers | wc -l) -gt $server_number ]]
             then
-                echo "NEEDS TO BE IMPLEMENTED, figure out how to choose server based on number"
-                #printf "\nStarting server ${FG_GREEN}$server${FG_WHITE}"
+                printf "\nStarting server ${FG_GREEN}$server${FG_WHITE}"
                 #$BetterMineOS/Commands/server-start.sh
             else
                 printf "\nInvalid server number"
