@@ -39,13 +39,13 @@ Please Select:
 
 _EOF_
 
-    read -p "Enter selection [0-5] > " selection
+    read -p "Enter selection [0-5] > " main_selection
 
     # Clear area beneath menu
     tput ed
 
     # Act on selection
-    case $selection in
+    case $main_selection in
             
         1)  # Create server
             read -p "Name for the server > " server_name
@@ -57,6 +57,8 @@ _EOF_
             
         2)  # Start server
             printf "\n"
+            server=0
+
             i=1
             for dir in $BetterMineOS/Servers/*
             do
@@ -80,9 +82,9 @@ _EOF_
 
             ;;
 
-
-        4)  # Connect to server
+        3) # Stop server
             printf "\n"
+            server=0
 
             number_of_servers=$(screen -ls | grep "(" | wc -l)
 
@@ -93,15 +95,34 @@ _EOF_
                 done
             printf "\n"
 
-            read -p "Enter the server number > " server
+            read -p "Enter the server number > " selection
 
-            selection=$(screen -ls | grep "(" | sed -n ${server}p | grep -o "[0-9]*\.")
-            screen -r $selection
+            server=$(screen -ls | grep "(" | cut -d'.' -f 2 | cut -d$'\t' -f 1 | sed -n ${selection}p)
+            $BetterMineOS/Commands/server-stop.sh $server
+
+            ;;
+        4)  # Connect to server
+            printf "\n"
+            server=0
+
+            number_of_servers=$(screen -ls | grep "(" | wc -l)
+
+            for (( i=1; i <=$number_of_servers; i++ ))
+                do
+                    screenlist=$(screen -ls | grep "(" | cut -d'.' -f 2 | cut -d$'\t' -f 1 | sed -n ${i}p)
+                    printf "\t$i) $screenlist\n"
+                done
+            printf "\n"
+
+            read -p "Enter the server number > " selection
+
+            server=$(screen -ls | grep "(" | sed -n ${selection}p | grep -o "[0-9]*\.")
+            screen -r $server
             ;;
 
         5)  # List running servers
             printf "\n"
-            screen -ls | grep "("
+            screen -ls | grep "(" | cut -d'.' -f 2 | cut -d$'\t' -f 1
             ;;
 
         0)  break
