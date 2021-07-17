@@ -140,4 +140,5 @@ _EOF_
 done
 
 tput rmcup
+clear
 echo "Program terminated."
